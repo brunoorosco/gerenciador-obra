@@ -1,8 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { accessGoogle } from '@/infra/google/accessGoogle'
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const ss = await accessGoogle()
   let sheet = ss.sheetsById[1679707489]
 
@@ -18,7 +17,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
   return NextResponse.json(datas)
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const result = await fetch(`https://swapi.dev/api/people`)
   if (!result.ok) throw new Error('Problrmas com o Fetch')
   const data = await result.json()
