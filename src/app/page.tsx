@@ -8,7 +8,7 @@ const menuItem = [
   {
     id: 3,
     text: 'Registro de Frequência',
-    link: '/funcionarios/1/registrar-frequencia'
+    link: '/obras/1/registrar-frequencia'
   },
   { id: 4, text: 'Outros', link: '/outros' }
 ]
