@@ -36,6 +36,17 @@ const useHttpPost = async <T>({ url, data }: IPost<T>) => {
   return res.json()
 }
 
+// const useHttpPost = async <T>({ url, data }: IPost<T>) => {
+//   const res = await axios.post(url, {
+//     headers: {
+//       'content-type': 'application/json'
+//     },
+//     body: JSON.stringify(data)
+//   })
+
+//   return res.data
+// }
+
 const executePatch = async <T>({ url, data }: IPatch<T>) => {
   const res = await fetch(url, {
     method: 'PATCH',

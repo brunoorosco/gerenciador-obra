@@ -2,14 +2,11 @@
 import { BackIcon } from '@/components/Icons'
 import Skeleton from '@/components/Skeleton'
 import { useHttpGet } from '@/hook/api'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
-export default function Register() {
+export default function DadosObra() {
   const { data, error, isLoading } = useHttpGet<any[]>(`/api/funcionarios`)
   const router = useRouter()
-  const { pathname } = router
-  console.log(pathname)
-
   function handleRoute() {
     router.back()
   }
@@ -27,7 +24,7 @@ export default function Register() {
                   Funcionário
                 </h3>
                 <p className='max-w-2xl mt-1 text-sm text-gray-500 dark:text-gray-200'>
-                  nome do funcionario
+                  Nome
                 </p>
               </div>
               <div className='flex text-right'>
@@ -42,7 +39,6 @@ export default function Register() {
                 </a>
               </div>
             </div>
-            <form></form>
           </div>
         </>
       )}
