@@ -15,7 +15,7 @@ type Props = {
   params: { obraId: string }
 }
 type FormValues = {
-  name: string
+  work: string
   worker: string
 }
 type TObr = {
@@ -54,8 +54,6 @@ export default function Register({ params }: Props) {
         data
       })
 
-      console.log(data)
-
       //   router.replace('/app')
       setIsLoading(false)
     } catch (error) {
@@ -93,11 +91,20 @@ export default function Register({ params }: Props) {
               defaultValue='Obra 1'
               disabled={true}
               control={control}
+              readOnly={true}
+            />
+          </div>
+          <div className='w-full flex'>
+            <TextInput
+              name='date'
+              control={control}
+              type='date'
+              addClass='text-center'
             />
           </div>
           <div className='w-full flex mt-2'>
             <DropDownUser
-              title={'Selecione o Funcionario'}
+              title={'Selecione o Funcionário'}
               control={control}
               name='worker'
             />

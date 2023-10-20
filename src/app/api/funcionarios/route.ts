@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { accessGoogle } from '@/infra/google/accessGoogle'
+import { ssWorker } from '@/infra/google/accessGoogle'
 
 export async function GET(req: NextRequest, res: NextResponse) {
-  const ss = await accessGoogle()
-  let sheet = ss.sheetsById[1679707489]
-
+  let sheet = await ssWorker()
   const rows = await sheet.getRows()
   const datas = await rows.map((row) => {
     return {

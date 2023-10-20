@@ -42,7 +42,7 @@ export function DropDownUser({ title, name, control, error }: DropdownProps) {
       ) : (
         <>
           <a
-            className='bg-gray-400  p-4 rounded-t w-full dark:bg-zinc-700 dark:text-gray-300'
+            className='bg-gray-300  p-4 rounded-t w-full dark:bg-zinc-700 dark:text-gray-300'
             onClick={toggleDropdown}
           >
             {title}

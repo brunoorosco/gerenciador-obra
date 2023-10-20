@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { accessGoogle } from '@/infra/google/accessGoogle'
+import { ssWork } from '@/infra/google/accessGoogle'
 
 type TResponse = {
   work: string
@@ -8,9 +8,7 @@ type TResponse = {
   totalWork: string
 }
 export async function GET(req: NextRequest, res: NextResponse) {
-  const ss = await accessGoogle()
-  let sheet = ss.sheetsById[486805175]
-
+  const sheet = await ssWork()
   const rows = await sheet.getRows()
   const datas: TResponse[] = await rows.map((row) => {
     return {

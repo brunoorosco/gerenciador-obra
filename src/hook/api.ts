@@ -24,28 +24,28 @@ const useHttpGet = <T = any>(url: string) => {
   return useSWR<T>(url, fetcher)
 }
 
-const useHttpPost = async <T>({ url, data }: IPost<T>) => {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-
-  return res.json()
-}
-
 // const useHttpPost = async <T>({ url, data }: IPost<T>) => {
-//   const res = await axios.post(url, {
+//   const res = await fetch(url, {
+//     method: 'POST',
 //     headers: {
 //       'content-type': 'application/json'
 //     },
 //     body: JSON.stringify(data)
 //   })
 
-//   return res.data
+//   return res.json()
 // }
+
+const useHttpPost = async <T>({ url, data }: IPost<T>) => {
+  const res = await axios.post(url, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    data
+  })
+
+  return res.data
+}
 
 const executePatch = async <T>({ url, data }: IPatch<T>) => {
   const res = await fetch(url, {
