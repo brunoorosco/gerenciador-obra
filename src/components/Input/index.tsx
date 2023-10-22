@@ -23,7 +23,7 @@ const TextInput: React.FC<ITextInput> = ({
   mask
 }) => {
   return (
-    <div className='flex justify-center w-full'>
+    <div className='flex justify-center w-full my-1'>
       <Controller
         name={name}
         control={control || ''}
@@ -31,7 +31,7 @@ const TextInput: React.FC<ITextInput> = ({
         render={({ field }) => (
           <div className='flex flex-col w-full'>
             <input
-              className={`p-4 block shadow bg-gray-100  mb-3 rounded w-full max-w-md focus:outline-gray-300 dark:bg-gray-600 dark:text-dark-primary disabled:text-gray-400 disabled:bg-zinc-200 ${addClass}`}
+              className={`appearance-none p-4 block shadow bg-gray-100 rounded w-full max-w-md focus:outline-gray-300 dark:bg-gray-600 dark:text-dark-primary disabled:text-gray-400 disabled:bg-zinc-200 ${addClass}`}
               disabled={disabled}
               maxLength={maxLength}
               type={type}

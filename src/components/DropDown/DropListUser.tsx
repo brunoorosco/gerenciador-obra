@@ -36,7 +36,7 @@ export function DropDownUser({ title, name, control, error }: DropdownProps) {
   }
 
   return (
-    <div className='w-full flex flex-col mb-2'>
+    <div className='w-full flex flex-col my-2'>
       {isLoading ? (
         <Skeleton />
       ) : (

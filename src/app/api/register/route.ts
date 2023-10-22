@@ -1,5 +1,4 @@
 import { ssRegister } from '@/infra/google/accessGoogle'
-import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   const res = await req.json()
@@ -11,13 +10,12 @@ export async function POST(req: Request) {
       for (const item of data) {
         const res = await sheet.addRow({
           worker: item.worker,
-          work: item.work,
+          work: item.work as string,
           present: '1',
-          date: new Date()
+          date: item.date
         })
         response.push(res)
       }
-      console.log(response)
       return new Response(response, { status: 201 })
     }
   } catch (error) {
@@ -26,10 +24,17 @@ export async function POST(req: Request) {
 }
 
 function transformData(data: any) {
+  const workProperty = (() => {
+    for (const key in data.work) {
+      return key
+    }
+  })()
+
   return Object.entries(data.worker)
     .filter(([name, isWorking]) => isWorking)
     .map(([name, isWorking]) => ({
-      work: data.work,
-      worker: name
+      work: workProperty,
+      worker: name,
+      date: data.date
     }))
 }

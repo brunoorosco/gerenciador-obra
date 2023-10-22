@@ -1,10 +1,7 @@
 'use client'
 import { BackIcon } from '@/components/Icons'
-import Skeleton from '@/components/Skeleton'
 import { useHttpGet, useHttpPost } from '@/hook/api'
 import { useRouter } from 'next/navigation'
-
-import Select from '@/components/ReactSelect'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import ButtonSubmit from '@/components/ButtonSubmit'
@@ -17,6 +14,7 @@ type Props = {
 type FormValues = {
   work: string
   worker: string
+  date: string
 }
 type TObr = {
   work: string
@@ -38,6 +36,9 @@ export default function Register({ params }: Props) {
     error: errorRequest,
     isLoading
   } = useHttpGet<TObr[]>(`/api/obras/${params.obraId}`)
+  const [dataAtual, setDataAtual] = useState(
+    new Date().toISOString().slice(0, 10)
+  )
 
   function handleRoute() {
     router.back()
@@ -85,7 +86,7 @@ export default function Register({ params }: Props) {
           </div>
         </div>
         <form className='max-md:w-full mt-5 px-1' onSubmit={onSubmit}>
-          <div className='w-full flex'>
+          {/* <div className='w-full flex'>
             <TextInput
               name='work'
               defaultValue='Obra 1'
@@ -93,16 +94,24 @@ export default function Register({ params }: Props) {
               control={control}
               readOnly={true}
             />
+          </div> */}
+          <div className='w-full flex mt-2'>
+            <DropDownObras
+              title={'Selecione uma Obra'}
+              control={control}
+              name='work'
+            />
           </div>
           <div className='w-full flex'>
             <TextInput
               name='date'
+              defaultValue={dataAtual}
               control={control}
               type='date'
               addClass='text-center'
             />
           </div>
-          <div className='w-full flex mt-2'>
+          <div className='w-full flex'>
             <DropDownUser
               title={'Selecione o Funcionário'}
               control={control}
