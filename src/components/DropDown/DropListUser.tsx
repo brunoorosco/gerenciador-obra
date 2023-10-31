@@ -7,7 +7,7 @@ import Skeleton from '../Skeleton'
 type DropdownProps = {
   title: string
   name: string
-  error?: string | undefined
+  errors?: any
   control: any
 }
 type TFunc = {
@@ -16,13 +16,10 @@ type TFunc = {
   priceDay: string
 }
 
-export function DropDownUser({ title, name, control, error }: DropdownProps) {
+export function DropDownUser({ title, name, control, errors }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [items, setItems] = useState<string[]>()
   const { data: workers, isLoading } = useHttpGet<TFunc[]>(`/api/funcionarios`)
-  // const response = await fetch('/api/funcionarios', {
-  //   cache: 'no-store'
-  // })
 
   useEffect(() => {
     if (workers) {
@@ -69,7 +66,11 @@ export function DropDownUser({ title, name, control, error }: DropdownProps) {
               ))}
             </div>
           )}
-          {error && <p className='text-red-400 text-sm block mt-2'>{error}</p>}
+          {errors && (
+            <p className='text-red-400 text-sm block mt-2'>
+              Selecione um funcionário!
+            </p>
+          )}
         </>
       )}
     </div>

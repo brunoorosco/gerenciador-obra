@@ -1,12 +1,13 @@
 'use client'
 import { BackIcon } from '@/components/Icons'
-import { useHttpGet, useHttpPost } from '@/hook/api'
+import { useHttpPost } from '@/hook/api'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormState } from 'react-hook-form'
 import ButtonSubmit from '@/components/ButtonSubmit'
 import { DropDownObras, DropDownUser } from '@/components/DropDown'
 import TextInput from '@/components/Input'
+import Alert from '@/components/Alert'
 
 type Props = {
   params: { obraId: string }
@@ -16,26 +17,15 @@ type FormValues = {
   worker: string
   date: string
 }
-type TObr = {
-  work: string
-}
 
 export default function Register({ params }: Props) {
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<FormValues>()
-  const [error, setError] = useState('')
+  const { control, handleSubmit, formState, setError, reset } =
+    useForm<FormValues>()
+  const [errorUser, setErrorUser] = useState(false)
   const [loading, setIsLoading] = useState(false)
   const router = useRouter()
-  const [obra, setObra] = useState()
-  const {
-    data: works,
-    error: errorRequest,
-    isLoading
-  } = useHttpGet<TObr[]>(`/api/obras/${params.obraId}`)
+  const [errorsForm, setErrosForm] = useState(true)
+  const [alert, setAlert] = useState(false)
   const [dataAtual, setDataAtual] = useState(
     new Date().toISOString().slice(0, 10)
   )
@@ -44,24 +34,51 @@ export default function Register({ params }: Props) {
     router.back()
   }
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: FormValues) => {
     try {
-      console.log(data)
+      isError(data)
       setIsLoading(true)
-      setError('')
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const response = await useHttpPost<FormValues>({
-        url: '/api/register',
-        data
-      })
+      console.log(errorUser, errorsForm)
+      if (!errorUser && !errorsForm) {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const response = await useHttpPost<FormValues>({
+          url: '/api/register',
+          data
+        })
 
-      //   router.replace('/app')
+        if (response.length > 0) {
+          setAlert(true)
+          setTimeout(() => setAlert(false), 3000)
+        }
+        //   router.replace('/app')
+      }
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
       console.log('[LOGIN_ERROR]: ', error)
     }
   })
+
+  const isError = (data: FormValues) => {
+    setErrosForm(true)
+    if (data.work == '' || data.work == undefined) {
+      setError('work', {
+        type: 'manual',
+        message: 'Selecione uma obra!'
+      })
+    } else {
+      setErrosForm(false)
+    }
+    setErrorUser(true)
+    if (data.worker === undefined) {
+      setErrorUser(true)
+    } else {
+      const hasTrue = Object.values(data?.worker).some(
+        (value: any) => value === true
+      )
+      hasTrue ? setErrorUser(false) : setErrorUser(true)
+    }
+  }
 
   return (
     <div className='container max-w-lg flex flex-col items-center mx-auto p-3'>
@@ -86,20 +103,17 @@ export default function Register({ params }: Props) {
           </div>
         </div>
         <form className='max-md:w-full mt-5 px-1' onSubmit={onSubmit}>
-          {/* <div className='w-full flex'>
-            <TextInput
-              name='work'
-              defaultValue='Obra 1'
-              disabled={true}
-              control={control}
-              readOnly={true}
-            />
-          </div> */}
+          {alert && (
+            <Alert title='Sucesso!' type='Success'>
+              Salvo com sucesso
+            </Alert>
+          )}
           <div className='w-full flex mt-2'>
             <DropDownObras
-              title={'Selecione uma Obra'}
               control={control}
+              title={'Selecione uma Obra'}
               name='work'
+              errors={formState.errors}
             />
           </div>
           <div className='w-full flex'>
@@ -107,6 +121,7 @@ export default function Register({ params }: Props) {
               name='date'
               defaultValue={dataAtual}
               control={control}
+              required
               type='date'
               addClass='text-center'
             />
@@ -116,6 +131,7 @@ export default function Register({ params }: Props) {
               title={'Selecione o Funcionário'}
               control={control}
               name='worker'
+              errors={errorUser}
             />
           </div>
           <div className='flex mt-3'>

@@ -24,16 +24,10 @@ export async function POST(req: Request) {
 }
 
 function transformData(data: any) {
-  const workProperty = (() => {
-    for (const key in data.work) {
-      return key
-    }
-  })()
-
   return Object.entries(data.worker)
     .filter(([name, isWorking]) => isWorking)
     .map(([name, isWorking]) => ({
-      work: workProperty,
+      work: data.work,
       worker: name,
       date: data.date
     }))
