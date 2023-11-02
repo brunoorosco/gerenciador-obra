@@ -43,7 +43,7 @@ export function DropDownObras({ control, name, errors, title }: DropdownProps) {
               <select
                 defaultValue={title}
                 {...field}
-                className='bg-gray-100  p-4 rounded-t w-full dark:bg-zinc-700 dark:text-gray-300 open:w-11'
+                className='appearance-none bg-gray-100  p-4 rounded-t w-full dark:bg-zinc-700 dark:text-gray-300 open:w-11'
               >
                 <option disabled>{title}</option>
                 {items?.map((item: any) => (
