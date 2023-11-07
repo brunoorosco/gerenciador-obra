@@ -30,3 +30,7 @@ export const ssRegister = async () => {
   const ss = await accessGoogle()
   return ss.sheetsById[1743141677]
 }
+export const ssFechamento = async () => {
+  const ss = await accessGoogle()
+  return ss.sheetsById[725154854]
+}

@@ -10,7 +10,7 @@ const menuItem = [
     text: 'Registro de Frequência',
     link: '/obras/1/registrar-frequencia'
   },
-  { id: 4, text: 'Outros', link: '/outros' }
+  { id: 4, text: 'Fechamento', link: '/fechamento' }
 ]
 export default function Home() {
   const router = useRouter()
