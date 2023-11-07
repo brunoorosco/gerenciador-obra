@@ -15,20 +15,22 @@ type FormValues = {
   dataInicio: string
   dataFim: string
 }
+type TClosing = {
+  worker: string
+  payment: string
+}
 
 export default function Fechamento({ params }: Props) {
-  const { control, handleSubmit, formState, setError } = useForm<FormValues>()
-  const [errorUser, setErrorUser] = useState(false)
+  const { control, handleSubmit } = useForm<FormValues>()
   const [loading, setIsLoading] = useState(false)
   const router = useRouter()
-  const [errorsForm, setErrosForm] = useState(true)
 
   const dataRetro = new Date()
   dataRetro.setDate(dataRetro.getDate() - 15)
 
   const dataRetroISO = dataRetro.toISOString().split('T')[0]
   const [dataFim, setDataFim] = useState(new Date().toISOString().slice(0, 10))
-  const [workers, setWorkes] = useState([])
+  const [workers, setWorkes] = useState<TClosing[]>([])
 
   function handleRoute() {
     router.back()
@@ -37,13 +39,9 @@ export default function Fechamento({ params }: Props) {
   const onSubmit = handleSubmit(async (data: FormValues) => {
     try {
       setIsLoading(true)
-      console.log(data)
-
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const response = await fetch(
         `/api/fechamento?dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`
       )
-
       setWorkes(await response.json())
       setIsLoading(false)
     } catch (error) {
@@ -95,7 +93,6 @@ export default function Fechamento({ params }: Props) {
           </div>
           <div className='flex mt-3'>
             <div className='w-full md:w-full mb-6 md:mb-0'>
-              {/* <a onClick={onSubmit}>Buscar</a> */}
               <ButtonSubmit text='Buscar' type='submit' loading={loading} />
             </div>
           </div>
