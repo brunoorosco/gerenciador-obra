@@ -1,6 +1,5 @@
 'use client'
 import { BackIcon } from '@/components/Icons'
-import { useHttpGet } from '@/hook/api'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
